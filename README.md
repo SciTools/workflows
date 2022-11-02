@@ -1,2 +1,2 @@
 # workflows
-Reusable workflows to be called from other SciTools repositories.
+Reusable GitHub workflows to be called from other `SciTools` repositories.

@@ -45,9 +45,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: install requirements
+        # Pin libarchive to avoid the conda-forge build which uses the
+        # incorrect SONAME scheme (see conda-forge/libarchive-feedstock/issues/69).
         run: |
           source $CONDA/bin/activate base
-          conda install -y -c conda-forge conda-libmamba-solver conda-lock
+          conda install -y -c conda-forge conda-libmamba-solver conda-lock libarchive=3.5.2=h5de8990_0
       - name: generate lockfile
         env:
           CONDA_EXPERIMENTAL_SOLVER: libmamba

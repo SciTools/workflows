@@ -78,6 +78,7 @@ jobs:
         run: |
           cp artifacts/artifact/*.lock requirements/ci/nox.lock
           rm -r artifacts
+
       - name: "Generate token"
         uses: tibdex/github-app-token@v1
         id: generate-token

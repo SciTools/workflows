@@ -2,7 +2,7 @@
 # available packages and dependencies.
 #
 # Environment specifications are given as conda environment.yml files found in
-# `requirements/ci/py**.yml`.  These state the packages required, the conda channels
+# `requirements/py**.yml`.  These state the packages required, the conda channels
 # that the packages will be pulled from, and any versions of packages that need to be
 # pinned at specific versions.
 #
@@ -29,7 +29,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: get_py
-        run: echo "::set-output name=matrix::$(ls -1 requirements/ci/py*.yml | xargs -n1 basename | sed 's/....$//' | jq -cnR '[inputs]')"
+        run: echo "::set-output name=matrix::$(ls -1 requirements/py*.yml | xargs -n1 basename | sed 's/....$//' | jq -cnR '[inputs]')"
 
   gen_lockfiles:
     # This is a matrix job: it splits to create new lockfiles for each
@@ -52,7 +52,7 @@ jobs:
           conda install -y -c conda-forge mamba conda-lock libarchive=3.5.2=h5de8990_0
       - name: generate lockfile
         run: |
-          $CONDA/bin/conda-lock lock -k explicit -p linux-64 -f requirements/ci/${{matrix.python}}.yml
+          $CONDA/bin/conda-lock lock -k explicit -p linux-64 -f requirements/${{matrix.python}}.yml
           mv conda-linux-64.lock ${{matrix.python}}-linux-64.lock
       - name: output lockfile
         uses: actions/upload-artifact@v3
@@ -76,7 +76,7 @@ jobs:
 
       - name: Update lock files in repo
         run: |
-          cp artifacts/artifact/*.lock requirements/ci/nox.lock
+          cp artifacts/artifact/*.lock requirements/locks
           rm -r artifacts
 
       - name: "Generate token"

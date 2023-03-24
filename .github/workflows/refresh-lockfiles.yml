@@ -16,9 +16,11 @@ on:
   workflow_dispatch:
   workflow_call:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-
   get_python_matrix:
     # Determines which Python versions should be included in the matrix used in
     # the gen_lockfiles job.
@@ -29,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - id: get_py
-        run: echo "::set-output name=matrix::$(ls -1 requirements/py*.yml | xargs -n1 basename | sed 's/....$//' | jq -cnR '[inputs]')"
+        run: echo "MATRIX=$(ls -1 requirements/py*.yml | xargs -n1 basename | sed 's/....$//' | jq -cnR '[inputs]')" >> ${GITHUB_OUTPUT}
 
   gen_lockfiles:
     # This is a matrix job: it splits to create new lockfiles for each
@@ -40,7 +42,7 @@ jobs:
 
     strategy:
       matrix:
-        python: ${{ fromJSON(needs.get_python_matrix.outputs.matrix) }}
+        python: ${{ fromJSON(needs.get_python_matrix.outputs.MATRIX) }}
 
     steps:
       - uses: actions/checkout@v3

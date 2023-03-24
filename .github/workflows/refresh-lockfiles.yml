@@ -45,8 +45,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: install requirements
-        # Pin libarchive to avoid the conda-forge build which uses the
-        # incorrect SONAME scheme (see conda-forge/libarchive-feedstock/issues/69).
         run: |
           source $CONDA/bin/activate base
           # libarchive on conda-forge is faulty: conda-forge/libarchive-feedstock#69

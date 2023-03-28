@@ -33,19 +33,20 @@ jobs:
           if [ -f "${WF_VERSION_FNAME}" ]
           then
             WF_VERSION=$(cat ${WF_VERSION_FNAME})
+            WF_DATE=$(echo ${WF_VERSION} | cut -d. -f1-2)
+            WF_SERIAL=$(echo ${WF_VERSION} | cut -d. -f3)
+            NOW_DATE=$(date +%Y.%m)
+            NOW_SERIAL=0
+            if [ "${WF_DATE}" == "${NOW_DATE}" ]
+            then
+              NOW_SERIAL=$(expr ${WF_SERIAL} + 1)
+            fi
+            WF_VERSION="${NOW_DATE}.${NOW_SERIAL}"
           else
             WF_VERSION="$(date +%Y.%m).0"
             echo "WF_BOOTSTRAP=1" >> ${GITHUB_ENV}
           fi
-          WF_DATE=$(echo ${WF_VERSION} | cut -d. -f1-2)
-          WF_SERIAL=$(echo ${WF_VERSION} | cut -d. -f3)
-          NOW_DATE=$(date +%Y.%m)
-          NOW_SERIAL=0
-          if [ "${WF_DATE}" == "${NOW_DATE}" ]
-          then
-            NOW_SERIAL=$(expr ${WF_SERIAL} + 1)
-          fi
-          echo "WF_VERSION=${NOW_DATE}.${NOW_SERIAL}" >> ${GITHUB_ENV}
+          echo "WF_VERSION=${WF_VERSION}" >> ${GITHUB_ENV}
 
       - name: "store release version"
         run: |

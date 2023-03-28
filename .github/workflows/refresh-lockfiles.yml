@@ -111,4 +111,4 @@ jobs:
           echo "pull-request #${{ steps.cpr.outputs.pull-request-number }}"
           echo "pull-request URL ${{ steps.cpr.outputs.pull-request-url }}"
           echo "pull-request operation [${{ steps.cpr.outputs.pull-request-operation }}]"
-          echo "pull-request head SHA ${{ steps.cpr.outputs.pull-request-head-sha }}"     
+          echo "pull-request head SHA ${{ steps.cpr.outputs.pull-request-head-sha }}"

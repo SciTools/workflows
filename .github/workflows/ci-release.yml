@@ -56,7 +56,7 @@ jobs:
           fi
           git config user.name "GitHub Actions"
           git config user.email "actions@users.noreply.github.com"
-          git commit -am "Automated release for verison \"${WF_VERSION}\""
+          git commit -am "Automated release for version \"${WF_VERSION}\""
           git push  
 
       - name: "perform release"

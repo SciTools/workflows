@@ -60,7 +60,15 @@ jobs:
           git commit -am "Automated release for version \"${WF_VERSION}\""
           git push
 
+      - name: "Generate token"
+        uses: tibdex/github-app-token@v1
+        id: generate-token
+        with:
+          app_id: ${{ secrets.AUTH_APP_ID }}
+          private_key: ${{ secrets.AUTH_APP_PRIVATE_KEY }}
+
       - name: "perform release"
         uses: softprops/action-gh-release@1e07f4398721186383de40550babbdf2b84acfc5
         with:
+          token: ${{ steps.generate-token.outputs.token }}
           tag_name: ${{ env.WF_VERSION }}

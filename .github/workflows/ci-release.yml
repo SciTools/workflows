@@ -13,6 +13,7 @@ concurrency:
 
 jobs:
   release:
+    if: "github.repository_owner == 'SciTools'"
     runs-on: ubuntu-latest
 
     defaults:

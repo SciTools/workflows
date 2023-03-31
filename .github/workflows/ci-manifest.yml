@@ -5,17 +5,7 @@
 name: ci-manifest
 
 on:
-  pull_request:
-    branches:
-      - "*"
-
-  push:
-    branches-ignore:
-      - "auto-update-lockfiles"
-      - "dependabot/*"
-      - "pre-commit-ci-update-config"
-
-  workflow_dispatch:
+  workflow_call:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

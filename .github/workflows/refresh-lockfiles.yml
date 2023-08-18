@@ -100,6 +100,7 @@ jobs:
           labels: |
             New: Pull Request
             Bot
+            benchmark_this
 
       - name: Check Pull Request
         if: steps.cpr.outputs.pull-request-number != ''

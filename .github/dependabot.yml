@@ -7,7 +7,11 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      # Check for updates to GitHub Actions every weekday
-      interval: "daily"
+      # Check early in the week - downstream dependabot checks (e.g. Iris) run deliberately later in the week.
+      #  Therefore allowing time for this update to be merged-and-released first.
+      interval: "weekly"
+      day: "monday"
+      time: "01:00"
+      timezone: "Europe/London"
     labels:
       - "🤖 bot"

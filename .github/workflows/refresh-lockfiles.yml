@@ -52,7 +52,7 @@ jobs:
           $CONDA/bin/conda-lock lock -k explicit -p linux-64 -f requirements/${{matrix.python}}.yml
           mv conda-linux-64.lock ${{matrix.python}}-linux-64.lock
       - name: output lockfile
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: ${{matrix.python}}-linux-64.lock
 
@@ -67,9 +67,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: get artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: artifacts
+          merge-multiple: true
 
       - name: Update lock files in repo
         run: |

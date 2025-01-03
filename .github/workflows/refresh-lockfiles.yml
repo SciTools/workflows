@@ -44,9 +44,7 @@ jobs:
       - name: install requirements
         run: |
           source $CONDA/bin/activate base
-          # libarchive on conda-forge is faulty: conda-forge/libarchive-feedstock#69
-          conda install -y -c defaults libarchive
-          conda install -y -c conda-forge mamba conda-lock
+          conda install -y -c conda-forge --override-channels libarchive mamba conda-lock
       - name: generate lockfile
         run: |
           $CONDA/bin/conda-lock lock -k explicit -p linux-64 -f requirements/${{matrix.python}}.yml

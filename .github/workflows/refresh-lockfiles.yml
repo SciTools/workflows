@@ -44,10 +44,10 @@ jobs:
       - name: install requirements
         run: |
           source $CONDA/bin/activate base
-          conda install -y -c conda-forge --override-channels libarchive mamba conda-lock
+          conda update -n base --all
       - name: generate lockfile
         run: |
-          $CONDA/bin/conda-lock lock -k explicit -p linux-64 -f requirements/${{matrix.python}}.yml
+          pipx run conda-lock -k explicit -p linux-64 -f requirements/${{matrix.python}}.yml
           mv conda-linux-64.lock ${{matrix.python}}-linux-64.lock
       - name: output lockfile
         uses: actions/upload-artifact@v4

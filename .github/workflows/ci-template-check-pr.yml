@@ -1,0 +1,18 @@
+# Checks if a PR makes any changes that ought to be shared via templating.
+# See .github/workflows/ci-template-check.yml for more details.
+# Separated from ci-template-check.yml for consistency with the other calling
+#  repos.
+
+name: ci-template-check-pr
+
+on:
+  pull_request_target:
+    branches:
+      - main
+
+jobs:
+  prompt-share:
+    uses: ./.github/workflows/ci-template-check.yml
+    secrets: inherit
+    with:
+      pr_number: ${{ github.event.pull_request.number }}

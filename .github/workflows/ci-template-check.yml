@@ -1,0 +1,43 @@
+# Checks if a PR makes any changes that ought to be shared via templating.
+# See SciTools/.github/templates/ for more info.
+
+name: ci-template-check
+
+on:
+  workflow_call:
+    inputs:
+      pr_number:
+        required: true
+        type: number
+
+jobs:
+  prompt-share:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Checkout SciTools/.github
+        uses: actions/checkout@v4
+        with:
+          repository: trexfeathers/SciTools.github
+          path: SciTools.github
+          ref: demo_templating
+
+      - name: Generate Token
+        id: generate-token
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a
+        with:
+          app_id: ${{ secrets.AUTH_APP_ID }}
+          private_key: ${{ secrets.AUTH_APP_PRIVATE_KEY }}
+
+      - name: Set up Python
+        # _templating_scripting.py only needs builtins to run.
+        uses: actions/setup-python@v5
+
+      - name: Prompt author to update templates
+        id: prompt_author
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: SciTools.github/templates/_templating_scripting.py prompt-share ${{ inputs.pr_number }}

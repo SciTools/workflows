@@ -21,9 +21,8 @@ jobs:
       - name: Checkout SciTools/.github
         uses: actions/checkout@v4
         with:
-          repository: trexfeathers/SciTools.github
+          repository: SciTools/.github
           path: SciTools.github
-          ref: demo_templating
 
       - name: Generate Token
         id: generate-token

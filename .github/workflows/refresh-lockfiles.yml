@@ -24,7 +24,7 @@ jobs:
     outputs:
       matrix: ${{ steps.get_py.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - id: get_py
         run: echo "MATRIX=$(ls -1 requirements/py*.yml | xargs -n1 basename | sed 's/....$//' | jq -cnR '[inputs]')" >> ${GITHUB_OUTPUT}
 
@@ -40,7 +40,7 @@ jobs:
         python: ${{ fromJSON(needs.get_python_matrix.outputs.MATRIX) }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: install requirements
         run: |
           source $CONDA/bin/activate base
@@ -64,7 +64,7 @@ jobs:
     needs: gen_lockfiles
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: get artifacts
         uses: actions/download-artifact@v5
         with:

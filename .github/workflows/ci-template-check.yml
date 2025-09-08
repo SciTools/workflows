@@ -33,7 +33,7 @@ jobs:
 
       - name: Set up Python
         # _templating_scripting.py only needs builtins to run.
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
 
       - name: Prompt author to update templates
         id: prompt_author

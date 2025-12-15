@@ -50,7 +50,7 @@ jobs:
           pipx run conda-lock -k explicit -p linux-64 -f requirements/${{matrix.python}}.yml
           mv conda-linux-64.lock ${{matrix.python}}-linux-64.lock
       - name: output lockfile
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: lock-artifacts-${{matrix.python}}
           path: ${{matrix.python}}-linux-64.lock

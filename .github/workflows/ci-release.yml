@@ -11,6 +11,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+
 jobs:
   release:
     if: "github.repository_owner == 'SciTools'"
@@ -24,9 +27,9 @@ jobs:
       WF_VERSION_FNAME: "version.txt"
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
-          fetch-depth: 0
+          persist-credentials: false
 
       - name: "calculate release version"
         run: |
@@ -50,8 +53,10 @@ jobs:
           echo "WF_VERSION=${WF_VERSION}" >> ${GITHUB_ENV}
 
       - name: "store release version"
+        env:
+          WF_VERSION: ${{ env.WF_VERSION }}
         run: |
-          echo ${{ env.WF_VERSION }} > ${WF_VERSION_FNAME}
+          echo ${WF_VERSION} > ${WF_VERSION_FNAME}
           if [ -n "${WF_BOOTSTRAP}" ]
           then
             git add ${WF_VERSION_FNAME}
@@ -62,6 +67,9 @@ jobs:
           git push
 
       - name: "perform release"
-        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda
-        with:
-          tag_name: ${{ env.WF_VERSION }}
+        env:
+          WF_VERSION: ${{ env.WF_VERSION }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${WF_VERSION} --generate-notes
+

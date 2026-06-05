@@ -6,13 +6,17 @@
 name: ci-template-check-pr
 
 on:
-  pull_request_target:
+  pull_request_target:  # zizmor: ignore[dangerous-triggers]
     branches:
       - main
+
+permissions: {}
 
 jobs:
   prompt-share:
     uses: ./.github/workflows/ci-template-check.yml
-    secrets: inherit
+    secrets: 
+      AUTH_APP_ID: ${{ secrets.AUTH_APP_ID }}
+      AUTH_APP_PRIVATE_KEY: ${{ secrets.AUTH_APP_PRIVATE_KEY }}
     with:
       pr_number: ${{ github.event.pull_request.number }}

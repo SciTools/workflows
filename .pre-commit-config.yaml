@@ -53,7 +53,7 @@ repos:
     -   id: trailing-whitespace
 
 -   repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.16.10"
+    rev: "v0.17.3"
     hooks:
     -   id: ruff-check
         types: [file, python]
@@ -81,14 +81,14 @@ repos:
         types: [file, python]
 
 -   repo: https://github.com/pre-commit/mirrors-mypy
-    rev: 'v2.4.0'
+    rev: 'v2.4.1'
     hooks:
     -   id: mypy
         exclude: 'noxfile\.py|docs/conf\.py'
 
 -   repo: https://github.com/abravalheri/validate-pyproject
     # More exhaustive than Ruff RUF200.
-    rev: "0.26"
+    rev: "v0.27"
     hooks:
     - id: validate-pyproject
 
